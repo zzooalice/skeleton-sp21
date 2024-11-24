@@ -81,6 +81,9 @@ public class ArrayDeque<T> {
             return null;
         }
         int i = nextFirst + 1 + index;
+        if (index == 0) {
+            return items[i - items.length];
+        }
         return items[i];
     }
 }
