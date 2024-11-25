@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T>  {
     private class Node {
         private Node prev;
         private T item;
@@ -11,6 +13,7 @@ public class LinkedListDeque<T> {
             next = n;
         }
     }
+
     private Node sentinal;
     private int size;
 
@@ -21,6 +24,7 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
+    @Override
     public void addFirst(T item) {
         Node first = sentinal.next;
         first.prev = new Node(item,first);
@@ -29,6 +33,7 @@ public class LinkedListDeque<T> {
         size++;
     }
 
+    @Override
     public void addLast(T item) {
         Node last = sentinal.prev;
         last.next = new Node(item, sentinal);
@@ -37,14 +42,12 @@ public class LinkedListDeque<T> {
         size++;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         for (int x = 0; x < size; x++) {
             System.out.print(get(x) + " ");
@@ -52,6 +55,7 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -65,6 +69,7 @@ public class LinkedListDeque<T> {
         return rItem;
     }
 
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -78,6 +83,7 @@ public class LinkedListDeque<T> {
         return mItem;
     }
 
+    @Override
     public T get(int index) {
         if (index < 0 || index > size - 1) {
             return null;
@@ -105,5 +111,30 @@ public class LinkedListDeque<T> {
             return x.item;
         }
         return getRecur(index - 1, x.next);
+    }
+
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        private int wizPos;
+        private LinkedListIterator() {
+            wizPos = 0;
+        }
+
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        public T next() {
+            T item = get(wizPos);
+            wizPos++;
+            return item;
+        }
+    }
+
+    public boolean equals(Object o) {
+
     }
 }
