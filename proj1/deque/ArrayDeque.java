@@ -31,9 +31,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void addFirst(T item) {
-        if (size == items.length - 2) {
-            resize(items.length * 2);
-        }
         items[nextFirst] = item;
         if (nextFirst == 0) {
             nextFirst = items.length - 1;
@@ -41,13 +38,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             nextFirst--;
         }
         size++;
+        if (size == items.length - 2) {
+            resize(items.length * 2);
+        }
     }
 
     @Override
     public void addLast(T item) {
-        if (size == items.length - 2) {
-            resize(items.length * 2);
-        }
         items[nextLast] = item;
         if (nextLast == items.length - 1) {
             nextLast = 0;
@@ -55,6 +52,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             nextLast++;
         }
         size++;
+        if (size == items.length - 2) {
+            resize(items.length * 2);
+        }
     }
 
     @Override
@@ -66,6 +66,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         T item = items[nextFirst];
         items[nextFirst] = null;
         size--;
+        if (size < items.length / 4 && size > 8) {
+            resize(items.length / 2);
+        }
         return item;
     }
 
@@ -78,6 +81,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         T item = items[nextLast];
         items[nextLast] = null;
         size--;
+        if (size < items.length / 4 && size > 8) {
+            resize(items.length / 2);
+        }
         return item;
     }
 
