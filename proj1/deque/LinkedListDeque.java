@@ -133,8 +133,4 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T>  {
             return item;
         }
     }
-
-    public boolean equals(Object o) {
-
-    }
 }
