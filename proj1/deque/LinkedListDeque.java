@@ -18,7 +18,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
 
     public LinkedListDeque() {
-        sentinal = new Node(null,null);
+        sentinal = new Node(null, null);
         sentinal.prev = sentinal;
         sentinal.next = sentinal;
         size = 0;
@@ -27,7 +27,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addFirst(T item) {
         Node first = sentinal.next;
-        first.prev = new Node(item,first);
+        first.prev = new Node(item, first);
         sentinal.next = first.prev;
         first.prev.prev = sentinal;
         size++;
