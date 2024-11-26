@@ -31,7 +31,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
         int ind = 0;
-        for (int i = 0; i < size; i += 1) {
+        for (int i = 0; i < size; i++) {
             ind = arrayInd(i);
             a[cap / 4 + i] = items[ind];
         }
@@ -108,7 +108,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void printDeque() {
-        for (int i = 0; i < items.length; i ++ ) {
+        for (int i = 0; i < items.length; i++) {
             System.out.print(items[i] + " ");
         }
         System.out.println();
@@ -159,8 +159,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this.size() != other.size()) {
             return false;
         }
-        for (T item : this) {
-            if (!other.equals(item)) {
+        for (int i = 0; i < size; i++) {
+            if (other.get(i) != get(i)) {
                 return false;
             }
         }
