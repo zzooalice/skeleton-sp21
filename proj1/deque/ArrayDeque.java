@@ -20,13 +20,24 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return size;
     }
 
+    private int arrayInd(int ind) {
+        if (nextFirst + 1 + ind >= items.length) {
+            return nextFirst + 1 + ind - items.length;
+        } else {
+            return nextFirst + 1 + ind;
+        }
+    }
+
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        int i = cap / 4;
-        System.arraycopy(items, nextFirst + 1, a, i, size);
+        int ind = 0;
+        for (int i = 0; i < size; i += 1) {
+            ind = arrayInd(i);
+            a[cap / 4 + i] = items[ind];
+        }
         items = a;
-        nextFirst = i - 1;
-        nextLast = i + size;
+        nextFirst = cap / 4 - 1;
+        nextLast = nextFirst + size + 1;
     }
 
     @Override
@@ -54,14 +65,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size++;
         if (size == items.length - 2) {
             resize(items.length * 2);
-        }
-    }
-
-    private int arrayInd(int ind) {
-        if (nextFirst + 1 + ind >= items.length) {
-            return nextFirst + ind -items.length;
-        } else {
-            return nextFirst + 1 +ind;
         }
     }
 
