@@ -57,12 +57,24 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
+    private int arrayInd(int ind) {
+        if (nextFirst + 1 + ind >= items.length) {
+            return nextFirst + ind -items.length;
+        } else {
+            return nextFirst + 1 +ind;
+        }
+    }
+
     @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
         }
-        nextFirst++;
+        if (nextFirst == items.length - 1) {
+            nextFirst = 0;
+        } else {
+            nextFirst++;
+        }
         T item = items[nextFirst];
         items[nextFirst] = null;
         size--;
@@ -77,7 +89,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isEmpty()) {
             return null;
         }
-        nextLast--;
+        if (nextLast == 0) {
+            nextLast = items.length - 1;
+        } else {
+            nextLast--;
+        }
         T item = items[nextLast];
         items[nextLast] = null;
         size--;
@@ -100,11 +116,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (index < 0 || index > size - 1) {
             return null;
         }
-        int i = nextFirst + 1 + index;
-        if (i >= items.length) {
-            return items[i - items.length];
-        }
-        return items[i];
+        int ind = arrayInd(index);
+        return items[ind];
     }
 
     public Iterator<T> iterator() {
@@ -122,9 +135,32 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         public T next() {
-            T item = items[wizPos];
+            T item = get(wizPos);
             wizPos++;
             return item;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+        ArrayDeque<T> other = (ArrayDeque<T>) o;
+        if (this.size() != other.size()) {
+            return false;
+        }
+        for (T item : this) {
+            if (!other.equals(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
